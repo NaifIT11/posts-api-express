@@ -1,10 +1,11 @@
 const path = require("path");
 const express = require("express");
+const bodyParser = require("body-parser");
 require('dotenv').config();
 
 app = express();
 
-app.use(express.json());
+app.use(bodyParser.json());
 
 let posts = [];
 let postId = 0;
@@ -19,7 +20,7 @@ app.post("/api/posts" , (req , res) => {
 
     const payload = req.body;
 
-    posts.push(payload)
+    posts.push({id: postId++, ...payload})
 
     console.log(payload);
 
