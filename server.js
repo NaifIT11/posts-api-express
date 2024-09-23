@@ -19,12 +19,12 @@ app.post("/api/posts" , (req , res) => {
     console.log("POST /api/posts");
 
     const payload = req.body;
-
-    posts.push({id: postId++, ...payload})
+    const id = ++postId;
+    posts.push({id: id, title: payload.title  , description: payload.description})
 
     console.log(payload);
 
-    res.json({created: true});
+    res.json({created: true , id: id});
 });
 
 
