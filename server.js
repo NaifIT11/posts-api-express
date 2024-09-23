@@ -45,6 +45,22 @@ app.put("/api/posts/:id", (req , res) => {
 });
 
 
+app.delete("/api/posts/:id" , (req , res) => {
+    const postId = req.params.id;
+    
+    console.log(`DELETE /api/posts/${postID}`)
+
+    if(postId <= 0){
+        res.json({error: {message: "post id should be larger than 0"}})
+    }
+
+    const index = posts.findIndex((post) => post.id === parseInt(postId));
+
+    posts.splice(index , 1);
+
+    res.json({deleted: true , id: postId})
+});
+
 
 app.listen(process.env.PORT , () => {
     console.log(`server is running on port ${process.env.PORT}`)
