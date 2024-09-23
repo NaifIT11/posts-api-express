@@ -11,6 +11,8 @@ let posts = [];
 let postId = 0;
 
 app.get("/api/posts" , (req , res) => {
+    console.log("GET /api/posts");
+
     res.json(posts)
 });
 
@@ -25,6 +27,21 @@ app.post("/api/posts" , (req , res) => {
     console.log(payload);
 
     res.json({created: true , id: id});
+});
+
+
+app.put("/api/posts/:id", (req , res) => {
+    const postId = req.params.id;
+    console.log(`PUT /api/posts/${postId}`)
+    
+    const payload = req.body;
+
+    const index = posts.findIndex((post) => post.id === postId);
+
+    posts.splice(index , 1 , {id: parseInt(postId) , title: payload.title , description: payload.description});
+
+
+    res.json({updated: true , id: postId})
 });
 
 
