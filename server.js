@@ -38,8 +38,7 @@ app.put("/api/posts/:id", (req , res) => {
 
     const index = posts.findIndex((post) => post.id === postId);
 
-    posts.splice(index , 1 , {id: parseInt(postId) , title: payload.title , description: payload.description});
-
+    posts.splice(index , 0 , {id: parseInt(postId) , title: payload.title , description: payload.description});
 
     res.json({updated: true , id: postId})
 });
@@ -54,9 +53,10 @@ app.delete("/api/posts/:id" , (req , res) => {
         res.json({error: {message: "post id should be larger than 0"}})
     }
 
-    const index = posts.findIndex((post) => post.id === parseInt(postId));
+    const targetPost = posts.find((post) => post.id === parseInt(postId));
 
-    posts.splice(index , 1);
+    targetPost.title = payload.title || targetPost.title;
+    targetPost.description = payload.description || targetPost.description
 
     res.json({deleted: true , id: postId})
 });
