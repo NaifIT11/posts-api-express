@@ -22,7 +22,7 @@ postRouter.post("/" , (req , res) => {
 
     const payload = req.body;
     
-    if(!payload || pa){
+    if(!payload){
         res.status(400).json({error: {message: "body is required"}})
     }
 
