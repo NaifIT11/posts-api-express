@@ -8,7 +8,7 @@ app = express();
 app.use(bodyParser.json());
 
 let posts = [];
-let postId = 0;
+let postId = posts.length;
 
 app.get("/api/posts" , (req , res) => {
     console.log("GET /api/posts");
@@ -36,9 +36,10 @@ app.put("/api/posts/:id", (req , res) => {
     
     const payload = req.body;
 
-    const index = posts.findIndex((post) => post.id === postId);
+    const targetPost = posts.find((post) => post.id === postId);
 
-    posts.splice(index , 0 , {id: parseInt(postId) , title: payload.title , description: payload.description});
+    targetPost.title = payload.title || targetPost.title;
+    targetPost.description = payload.description || targetPost.description
 
     res.json({updated: true , id: postId})
 });
@@ -53,10 +54,9 @@ app.delete("/api/posts/:id" , (req , res) => {
         res.json({error: {message: "post id should be larger than 0"}})
     }
 
-    const targetPost = posts.find((post) => post.id === parseInt(postId));
+    const index = posts.findIndex((post) => post.id === parseInt(postId));
 
-    targetPost.title = payload.title || targetPost.title;
-    targetPost.description = payload.description || targetPost.description
+    posts.splice(index , 1);
 
     res.json({deleted: true , id: postId})
 });
