@@ -21,12 +21,17 @@ app.post("/api/posts" , (req , res) => {
     console.log("POST /api/posts");
 
     const payload = req.body;
+    
+    if(!payload){
+        res.status(400).json({error: {message: "body is required"}})
+    }
+
     const id = ++postId;
     posts.push({id: id, title: payload.title  , description: payload.description})
 
     console.log(payload);
 
-    res.json({created: true , id: id});
+    res.status(201).json({created: true , id: id});
 });
 
 
@@ -36,6 +41,9 @@ app.put("/api/posts/:id", (req , res) => {
     
     const payload = req.body;
 
+    if(!payload){
+        res.status(400).json({error: {message: "body is required"}})
+    }
     const targetPost = posts.find((post) => post.id === postId);
 
     targetPost.title = payload.title || targetPost.title;
